@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -7,23 +8,20 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // Cargar datos de login.json
-  const loadUserData = async () => {
-    try {
-      const response = await fetch('/login.json');
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error loading login data:', error);
-      return [];
+  // Función para cargar los datos de los usuarios desde localStorage
+  const loadUserData = () => {
+    const loginData = localStorage.getItem('loginData');
+    if (loginData) {
+      return JSON.parse(loginData); // Convertir el JSON almacenado en un objeto
     }
+    return []; // Retornar un arreglo vacío si no hay datos
   };
 
   // Manejar el envío del formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
-    const usersData = await loadUserData();
+    const usersData = loadUserData();
 
     // Buscar al usuario con las credenciales proporcionadas
     const user = usersData.find(
@@ -31,16 +29,14 @@ const Login = () => {
     );
 
     if (user) {
-      // Almacenar en localStorage el estado de autenticación y el rol
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('username', username);
-      localStorage.setItem('role', user.role); // Guardamos el rol del usuario
+      sessionStorage.setItem('loggedInUser', username);
+      localStorage.setItem('userRole', user.role); 
 
       // Redirigir al dashboard según el rol
-      if (user.role === 'admin') {
-        navigate('/admin-dashboard');
+      if (user.role === 'Admin') {
+        navigate('/admin');
       } else {
-        navigate('/user-dashboard');
+        navigate('/');
       }
     } else {
       setErrorMessage('Credenciales incorrectas. Intenta nuevamente.');
@@ -49,7 +45,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Inicio de Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
           <label htmlFor="username">Username:</label>
@@ -74,6 +70,9 @@ const Login = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit">Login</button>
       </form>
+      <p className="register-link">
+        ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
+      </p>
     </div>
   );
 };
