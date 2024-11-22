@@ -1,15 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 // Crear el contexto
 export const Context = createContext();
 
 const ContextProvider = ({ children }) => {
-    // Estado para manejar los productos en el carrito
     const [cart, setCart] = useState([]);
+
+    // Función para cargar el carrito desde localStorage
+    useEffect(() => {
+        const storedCart = localStorage.getItem('cart');
+        if (storedCart) {
+            setCart(JSON.parse(storedCart)); // Cargar el carrito desde localStorage
+        }
+    }, []);
 
     // Función para agregar productos al carrito
     const buyProducts = (product) => {
-        // Buscar si el producto ya existe en el carrito
         const productRepeat = cart.find((item) => item.id === product.id);
 
         if (productRepeat) {
@@ -54,6 +60,13 @@ const ContextProvider = ({ children }) => {
     const clearCart = () => {
         setCart([]);
     };
+
+    // Guardar el carrito actualizado en localStorage cada vez que cambie
+    useEffect(() => {
+        if (cart.length > 0) {
+            localStorage.setItem('cart', JSON.stringify(cart)); // Guardar carrito en localStorage
+        }
+    }, [cart]);
 
     return (
         <Context.Provider

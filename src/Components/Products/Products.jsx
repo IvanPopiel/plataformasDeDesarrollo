@@ -22,7 +22,19 @@ const Products = () => {
         if (!isAuthenticated) {
             navigate('/login'); // Si no está logueado, redirigir a login
         } else {
-            buyProducts(product); // Si está logueado, ejecutar la compra
+            // Reducir la cantidad del producto en la lista de productos
+            setProducts(prevProducts => {
+                const updatedProducts = prevProducts.map(p => 
+                    p.id === product.id 
+                    ? { ...p, quanty: p.quanty - 1 } 
+                    : p
+                );
+                
+                // Guardar los productos actualizados en localStorage
+                localStorage.setItem('productsData', JSON.stringify(updatedProducts));
+                return updatedProducts;
+            });
+            buyProducts(product); // Llamar a buyProducts para agregarlo al carrito
         }
     };
 
@@ -33,7 +45,7 @@ const Products = () => {
                 <h3>{product.name}</h3>
                 <h4>${product.price}</h4>
                 <p>Quantity: {product.quanty}</p>
-                <button onClick={() => handleBuy(product)}>Buy</button> {/* Usar handleBuy en lugar de buyProducts directamente */}
+                <button onClick={() => handleBuy(product)}>Buy</button>
             </div>
         );
     });
