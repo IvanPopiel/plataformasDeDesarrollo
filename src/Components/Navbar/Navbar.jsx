@@ -16,7 +16,7 @@ const NavBar = () => {
     <div className="nav-container">
       <nav className="navbar">
         <Link to='/'>
-          <h1 className="navbar-logo">shop.</h1>
+          <h1 className="navbar-logo">GameStore</h1>
         </Link>
         <Link to='/cart'>
           <h2 className="navbar-cart">🛒</h2>
