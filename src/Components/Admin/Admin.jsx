@@ -33,6 +33,10 @@ const Admin = () => {
       <button className="create-product-button" onClick={() => navigate('/admin/new')}>
         Crear Producto
       </button>
+      <button className="create-product-button" onClick={() => navigate('/admin/usermanagement')}>
+        Gestionar Usuarios
+      </button>
+
 
       <div className="products-list">
         <h3>Product List</h3>

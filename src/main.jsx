@@ -9,6 +9,7 @@ import Register from './Components/Login/Register.jsx';
 import Admin from './Components/Admin/Admin.jsx'; 
 import NewProduct from './Components/Admin/NewProduct.jsx';
 import EditProduct from './Components/Admin/EditProduct.jsx';  
+import UserManagement from './Components/Admin/UserManagement.jsx';
 import './index.css';
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
   {
     path: '/admin/edit/:productId', 
     element: <EditProduct />, 
+  },
+    {
+    path: '/admin/usermanagement',
+    element: <UserManagement currentUser={{ username: "admin", role: "admin" }} />,
   },
 ]);
 
