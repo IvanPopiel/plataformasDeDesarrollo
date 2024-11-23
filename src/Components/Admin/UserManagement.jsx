@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./UserManagement.css";
+import { useNavigate } from "react-router-dom";
+
+
 
 const UserManagement = ({ currentUser }) => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -45,6 +49,10 @@ const UserManagement = ({ currentUser }) => {
     <div className="user-form-body">
       <div className="user-form-div">
         <h2>Gestión de Usuarios</h2>
+        <button onClick={() => navigate('/admin')}>
+        Volver a Admin
+      </button>
+      
         <table>
           <thead>
             <tr>
