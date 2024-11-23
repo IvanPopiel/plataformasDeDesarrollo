@@ -1,32 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NewProduct.css';
 
 const NewProduct = () => {
   const [product, setProduct] = useState({
-    id: '',
     name: '',
     price: '',
     quanty: '',
     img: ''
   });
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-  const handleAddProduct = () => {
+ 
+  useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem('productsData')) || [];
+    setProducts(storedProducts);
+  }, []);
+
+  
+  const handleAddProduct = () => {
     const newProduct = {
       ...product,
-      id: new Date().getTime().toString() // Generate a unique id based on the current timestamp
+      id: new Date().getTime().toString()
     };
 
-    const updatedProducts = [...storedProducts, newProduct];
+    const updatedProducts = [...products, newProduct];
     localStorage.setItem('productsData', JSON.stringify(updatedProducts));
+    setProducts(updatedProducts);
     navigate('/admin');
+  };
+
+  // borrar
+  const handleDeleteProduct = (id) => {
+    const updatedProducts = products.filter((product) => product.id !== id);
+    localStorage.setItem('productsData', JSON.stringify(updatedProducts));
+    setProducts(updatedProducts);
   };
 
   return (
     <div className="new-product-container">
-      <h2>Create New Product</h2>
+      <h2>Crear un nuevo producto</h2>
+      <button onClick={() => navigate('/admin')}>
+        Volver a Admin
+      </button>
       <input
         type="text"
         placeholder="Product Name"
@@ -52,6 +69,27 @@ const NewProduct = () => {
         onChange={(e) => setProduct({ ...product, quanty: e.target.value })}
       />
       <button onClick={handleAddProduct}>Add Product</button>
+
+      {/* prods */}
+      <div className="products-list">
+
+        <h3>Lista de Productos</h3>
+
+        {products.length === 0 ? (
+          <p>No hay productos para mostrar</p>
+        ) : (
+          products.map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.img} alt={product.name} />
+              <h4>{product.name}</h4>
+              <p>Precio: ${product.price}</p>
+              <p>Cantidad: {product.quanty}</p>
+              <button onClick={() => navigate(`/admin/edit/${product.id}`)}>Editar</button>
+              <button onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };

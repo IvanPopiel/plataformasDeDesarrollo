@@ -51,10 +51,10 @@ const UserManagement = ({ currentUser }) => {
   return (
     <div className="user-form-body">
       <div className="user-form-div">
-        <h2>Gestión de Usuarios</h2>
+        <h2>Gestor de Usuarios</h2>
         <button onClick={() => navigate('/admin')}>
         Volver a Admin
-      </button>
+        </button>
       
         <table>
           <thead>
