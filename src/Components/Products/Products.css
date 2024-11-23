@@ -1,32 +1,76 @@
 .product-card-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 50px;
-    text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 50px;
+  text-align: center;
+}
+
+.card {
+  margin: 50px;
+}
+
+.card img {
+  width: 300px;
+  height: 350px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 10px;
+  color: white;
+  background-color: #1bcb7f;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 15px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+
+/* Estilos para tablets */
+@media (max-width: 768px) {
+  .product-card-container {
+    margin: 30px; /* Reducimos el margen general */
+    justify-content: center; /* Centra las tarjetas si hay pocas en la fila */
   }
-  
+
   .card {
-    margin: 50px;
+    margin: 30px; /* Menor margen entre tarjetas */
   }
-  
+
   .card img {
-    width: 300px;
-    height: 350px;
+    width: 250px; /* Imagen más pequeña */
+    height: 300px;
   }
-  
+
   .card button {
-    border: none;
-    outline: 0;
-    padding: 10px;
-    color: white;
-    background-color: #1bcb7f;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 15px;
+    font-size: 14px; /* Botón ligeramente más pequeño */
+    padding: 8px;
   }
-  .card button:hover {
-    opacity: 0.7;
+}
+
+/* Estilos para celulares */
+@media (max-width: 480px) {
+  .product-card-container {
+    flex-direction: column; /* Apila las tarjetas verticalmente */
+    margin: 20px;
   }
-  
+
+  .card {
+    margin: 20px auto; /* Centra cada tarjeta en la pantalla */
+  }
+
+  .card img {
+    width: 200px; /* Imagen más compacta */
+    height: 250px;
+  }
+
+  .card button {
+    font-size: 13px; /* Botón más pequeño */
+    padding: 6px;
+  }
+}

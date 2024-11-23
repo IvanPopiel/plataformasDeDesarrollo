@@ -51,16 +51,6 @@ const ContextProvider = ({ children }) => {
         }
     };
 
-    // Función para eliminar un producto completamente del carrito
-    const removeProduct = (productId) => {
-        setCart(cart.filter((item) => item.id !== productId));
-    };
-
-    // Función para vaciar el carrito
-    const clearCart = () => {
-        setCart([]);
-    };
-
     // Guardar el carrito actualizado en localStorage cada vez que cambie
     useEffect(() => {
         if (cart.length > 0) {
@@ -75,8 +65,6 @@ const ContextProvider = ({ children }) => {
                 setCart,
                 buyProducts,
                 decreaseProduct,
-                removeProduct,
-                clearCart,
             }}
         >
             {children}

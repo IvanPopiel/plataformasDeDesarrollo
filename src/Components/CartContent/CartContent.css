@@ -1,30 +1,119 @@
+.counter-container {
+  display: flex; /* Aseguramos que sea en fila */
+  justify-content: space-between; /* Centrar los botones y cantidad */
+}
+.counter-button{
+  padding: 0 30px;
+}
+
 .product-card-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 30px;
+}
+
+.product-card-container > img {
+  height: 120px;
+  width: 100px;
+  text-align: center;
+}
+
+.cartTotal {
+  text-align: center;
+}
+
+.cart-delete-product {
+  cursor: pointer;
+}
+
+.counter-button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cart-message-center {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Estilos para tablets */
+@media (max-width: 768px) {
+  .product-card-container {
+    margin: 15px; /* Margen general ajustado */
+    flex-direction: column; /* Organización en columna */
+    align-items: center; /* Centrar todo el contenido */
+  }
+
+  .product-card {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 30px;
-  }
-  
-  .product-card-container > img {
-    height: 120px;
-    width: 100px;
-    text-align: center;
+    flex-direction: column; /* Organización vertical */
+    align-items: center; /* Centrar el contenido de cada tarjeta */
+    border-bottom: 1px solid #ccc; /* Línea divisoria entre productos */
+    padding: 10px 0; /* Espaciado interno */
   }
 
-  .cartTotal {
-    text-align: center;
+  .product-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px; /* Espacio entre imagen y detalles */
   }
 
-  .cart-delete-product {
-    cursor: pointer;
+  .product-image img {
+    width: 100px; /* Tamaño ajustado para tablets */
+    height: auto; /* Mantener proporción de la imagen */
+    border-radius: 5px; /* Bordes ligeramente redondeados */
+  }
+
+  .product-name {
+    font-size: 16px; /* Tamaño ajustado del texto */
+    text-align: center; /* Centrar texto del nombre */
+    margin-bottom: 10px; /* Espacio con el contador */
+  }
+
+  .counter-container {
+    display: flex; /* Aseguramos que sea en fila */
+    justify-content: center; /* Centrar los botones y cantidad */
+    align-items: center; /* Alinear verticalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+    margin-bottom: 10px; /* Espacio con el total */
   }
 
   .counter-button {
+    font-size: 20px; /* Tamaño destacado para botones */
+    padding: 5px 10px; /* Área de clic aumentada */
+    background-color: #1bcb7f; /* Color llamativo */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
     cursor: pointer;
-    font-weight: bold;
+    transition: background-color 0.3s; /* Efecto al pasar el cursor */
   }
 
-  .cart-message-center {
-    text-align: center;
-    margin-top: 40px;
+  .counter-button:hover {
+    background-color: #159f62; /* Cambio de color al hover */
   }
+
+  .quantity-display {
+    font-size: 18px; /* Tamaño ajustado */
+    font-weight: bold; /* Resaltar el número */
+    color: #555;
+    text-align: center;
+  }
+
+  .product-total {
+    text-align: center;
+    font-size: 14px; /* Tamaño ajustado */
+    color: #555;
+    margin-top: 5px;
+  }
+
+  .delete-button {
+    margin-top: 10px; /* Espacio adicional */
+    cursor: pointer;
+    color: #e63946; /* Rojo llamativo */
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+  }
+}

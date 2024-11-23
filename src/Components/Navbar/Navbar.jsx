@@ -14,30 +14,36 @@ const NavBar = () => {
 
   return (
     <div className="nav-container">
-      <nav className="navbar">
-        <Link to='/'>
-          <h1 className="navbar-logo">GameStore</h1>
-        </Link>
-        <Link to='/cart'>
-          <h2 className="navbar-cart">🛒</h2>
-        </Link>
+  <nav className="navbar">
+    {/* Logo de la tienda */}
+    <Link to="/" className="navbar-logo-container">
+      <h1 className="navbar-logo">GameStore</h1>
+    </Link>
 
-        {/* Botones de Login/Registro o Nombre de usuario y Logout */}
-        <div className="login-buttons">
-          {isAuthenticated ? (
-            <div className="user-info">
-              <span className="navbar-username">Hola, {username}</span>
-              <button onClick={handleLogout} className="navbar-logout">Logout</button>
-            </div>
-          ) : (
-            <>
-              <Link to='/login' className="navbar-login">Login</Link>
-              <Link to='/register' className="navbar-register">Register</Link>
-            </>
-          )}
-        </div>
-      </nav>
+    {/* Contenedor de íconos y botones de usuario */}
+    <div className="navbar-actions">
+      {/* Icono de carrito */}
+      <Link to="/cart" className="navbar-cart">
+        🛒
+      </Link>
+
+      {/* Área de Login/Registro o nombre de usuario y Logout */}
+      <div className="login-buttons">
+        {isAuthenticated ? (
+          <div className="user-info">
+            <span className="navbar-username">Hola, {username}</span>
+            <button onClick={handleLogout} className="navbar-logout">Logout</button>
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="navbar-login">Login</Link>
+            <Link to="/register" className="navbar-register">Register</Link>
+          </>
+        )}
+      </div>
     </div>
+  </nav>
+</div>
   );
 }
 

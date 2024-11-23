@@ -1,3 +1,4 @@
+/* Estilos generales */
 .nav-container {
   position: sticky;
   z-index: 3;
@@ -7,21 +8,30 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   background-color: #1b1b1b;
-  padding: 0 20px; 
+  padding: 0 20px;
   height: 10vh;
   flex-wrap: wrap;
 }
 
-.navbar a {
-  text-decoration: none;
+.navbar-logo-container {
+  display: flex;
+  align-items: center;
 }
 
 .navbar-logo {
   color: #fff;
   font-size: 2rem;
   cursor: pointer;
+  margin: 0;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .navbar-cart {
@@ -31,29 +41,38 @@
 }
 
 .navbar-username {
-  font-size: 1.5rem;
-  color: #FFD700;
-  margin-right: 10px;
+  font-size: 1.3rem; /* Reducido el tamaño */
+  color: #FF5733; /* Color rojo */
+  font-weight: 500; /* Peso de fuente moderado */
+  margin-left: 30px;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+  text-decoration: none; /* Quitado subrayado */
 }
 
 .navbar-logout {
-  background-color: #f44336;
+  background-color: #f44336; /* Color rojo */
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 0;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  border-radius: 25px; /* Redondeado sutil */
+  transition: all 0.3s ease-out;
+  box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3); /* Sombra sutil para destacarlo */
 }
 
 .navbar-logout:hover {
-  background-color: #d32f2f;
+  background-color: #d32f2f; /* Rojo más oscuro */
+  transform: translateY(-2px); /* Leve elevación */
+  box-shadow: 0 6px 15px rgba(244, 67, 54, 0.4); /* Sombra más intensa al pasar el cursor */
 }
+
 
 .navbar-login,
 .navbar-register {
-  background-color: #4CAF50;
+  background-color: #f44336;
   color: white;
   padding: 10px 20px;
   font-size: 1rem;
@@ -61,20 +80,118 @@
   cursor: pointer;
   text-align: center;
   border-radius: 5px;
-  margin: 5px; 
+  margin: 5px;
   transition: background-color 0.3s;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .navbar-login:hover,
 .navbar-register:hover {
-  background-color: #45a049;
+  background-color: #f71000;
 }
 
 .login-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px; 
   flex-wrap: wrap;
+}
+
+/* Eliminar el subrayado de los enlaces */
+.navbar a,
+.navbar-login,
+.navbar-register {
+  text-decoration: none; /* Elimina el subrayado */
+}
+
+/* Estilos para pantallas entre 1090px y 768px */
+@media (max-width: 1090px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .navbar-logo {
+    font-size: 1.8rem;
+  }
+
+  .navbar-cart {
+    font-size: 22px;
+  }
+
+}
+
+/* Estilos para tablets (768px y menores) */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .navbar-logo {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .navbar-actions {
+    display: flex;
+    justify-content: space-between; /* Asegura que los elementos estén en los extremos */
+    align-items: center; /* Alinea verticalmente los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  }
+
+  .navbar-cart {
+    font-size: 22px;
+  }
+
+  .navbar-username {
+    font-size: 1.1rem; /* Más pequeño para tablets */
+    margin-left: 20px; /* Espacio reducido */
+  }
+
+  .navbar-logout {
+    font-size: 0.9rem; /* Reducido aún más */
+    padding: 6px 15px; /* Ajuste en el padding */
+  }
+
+  .login-buttons {
+    gap: 5px;
+  }
+}
+
+/* Estilos para móviles (480px y menores) */
+@media (max-width: 480px) {
+  .navbar {
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+    padding: 10px;
+  }
+
+  .navbar-logo {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .navbar-cart {
+    font-size: 20px;
+  }
+
+  .navbar-username {
+    font-size: 1.0rem; /* Aún más pequeño en móviles */
+    margin-left: 10px; /* Menos espacio */
+  }
+
+  .navbar-logout {
+    font-size: 0.8rem; /* Más pequeño para móviles */
+    padding: 5px 10px; /* Ajuste en el padding */
+  }
+
+  .login-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
