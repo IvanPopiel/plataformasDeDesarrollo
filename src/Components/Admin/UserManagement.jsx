@@ -9,14 +9,16 @@ const UserManagement = ({ currentUser }) => {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const agregarId = (usersSinId)=> usersSinId.map((user, index) => ({ id : index+1, ...user}) ) 
-
+  const agregarId = (usersSinId)=> 
+  usersSinId ? usersSinId.map((user, index ) => ({ id: index+1, ...user })) : [];
   useEffect(() => {
     if (currentUser?.role === "admin") {
       setIsAdmin(true);
-/*       setUsers(JSON.parse(localStorage.getItem("userData")));
+/*       setUsers(JSON.parse(localStorage.getItem("loginData")));
  */
-      setUsers(agregarId(JSON.parse(localStorage.getItem("userData"))));
+      const loginData = JSON.parse(localStorage.getItem("loginData")) || [];
+      console.log("mostrar los datos de local: ", loginData);
+      setUsers(agregarId(loginData));
     }
   }, [currentUser]);
   
@@ -25,6 +27,7 @@ const UserManagement = ({ currentUser }) => {
   const handleDelete = (username) => {
     const updatedUsers = users.filter((user) => user.username !== username);
     setUsers(updatedUsers);
+    localStorage.setItem("loginData", JSON.stringify(updatedUsers));
   };
 
   const handleEditChange = (e) => {
@@ -37,7 +40,7 @@ const UserManagement = ({ currentUser }) => {
       user.id === editUser.id ? editUser : user
     );
     setUsers(updatedUsers);
-    localStorage.setItem("userData", JSON.stringify(updatedUsers));
+    localStorage.setItem("loginData", JSON.stringify(updatedUsers));
     setEditUser(null);
   };
 
@@ -100,8 +103,8 @@ const UserManagement = ({ currentUser }) => {
                       </>
                     ) : (
                       <>
-                        <button onClick={() => setEditUser(user)}>Editar</button>
-                        <button onClick={() => handleDelete(user.username)}>Borrar</button>
+                        <button onClick={() => setEditUser(user)}>✏️</button>
+                        <button onClick={() => handleDelete(user.username)}>🗑️</button>
                       </>
                     )}
                   </td>
