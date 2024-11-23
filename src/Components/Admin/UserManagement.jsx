@@ -1,83 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./UserManagement.css";
 
-const renderTableRows = (
-  users,
-  editUser,
-  handleEditChange,
-  handleDelete,
-  setEditUser,
-  handleEditSave
-) => {
-  const rows = [];
-
-  users.forEach((user) => {
-    const isEditing = editUser?.username === user.username;
-    rows.push(
-      <tr key={user.username}>
-        <td>
-          {isEditing ? (
-            <input
-              type="text"
-              name="username"
-              value={editUser.username}
-              onChange={handleEditChange}
-              disabled
-            />
-          ) : (
-            user.username
-          )}
-        </td>
-        <td>
-          {isEditing ? (
-            <select
-              name="role"
-              value={editUser.role}
-              onChange={handleEditChange}
-            >
-              <option value="admin">admin</option>
-              <option value="user">user</option>
-            </select>
-          ) : (
-            user.role
-          )}
-        </td>
-        <td>
-          {isEditing ? (
-            <>
-              <button onClick={handleEditSave}>Guardar</button>
-              <button onClick={() => setEditUser(null)}>Cancelar</button>
-            </>
-          ) : (
-            <>
-              <button onClick={() => setEditUser(user)}>Editar</button>
-              <button onClick={() => handleDelete(user.username)}>
-                Borrar
-              </button>
-            </>
-          )}
-        </td>
-      </tr>
-    );
-  });
-
-  return rows;
-};
-
 const UserManagement = ({ currentUser }) => {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const agregarId = (usersSinId)=> usersSinId.map((user, index) => ({ id : index+1, ...user}) ) 
 
   useEffect(() => {
     if (currentUser?.role === "admin") {
       setIsAdmin(true);
-      fetch("/login.json")
-        .then((response) => response.json())
-        .then((data) => setUsers(data))
-        .catch((error) => console.error("Error al cargar usuarios:", error));
+/*       setUsers(JSON.parse(localStorage.getItem("userData")));
+ */
+      setUsers(agregarId(JSON.parse(localStorage.getItem("userData"))));
     }
   }, [currentUser]);
+  
+  
 
   const handleDelete = (username) => {
     const updatedUsers = users.filter((user) => user.username !== username);
@@ -91,9 +30,10 @@ const UserManagement = ({ currentUser }) => {
 
   const handleEditSave = () => {
     const updatedUsers = users.map((user) =>
-      user.username === editUser.username ? editUser : user
+      user.id === editUser.id ? editUser : user
     );
     setUsers(updatedUsers);
+    localStorage.setItem("userData", JSON.stringify(updatedUsers));
     setEditUser(null);
   };
 
@@ -114,19 +54,57 @@ const UserManagement = ({ currentUser }) => {
             </tr>
           </thead>
           <tbody>
-            {renderTableRows(
-              users,
-              editUser,
-              handleEditChange,
-              handleDelete,
-              setEditUser,
-              handleEditSave
-            )}
+            {users.map((user) => {
+              const isEditing = editUser?.id === user.id;
+              return (
+                <tr key={user.id}>
+                  <td>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="username"
+                        value={editUser.username}
+                        onChange={handleEditChange}
+                      />
+                    ) : (
+                      user.username
+                    )}
+                  </td>
+                  <td>
+                    {isEditing ? (
+                      <select
+                        name="role"
+                        value={editUser.role}
+                        onChange={handleEditChange}
+                      >
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                      </select>
+                    ) : (
+                      user.role
+                    )}
+                  </td>
+                  <td>
+                    {isEditing ? (
+                      <>
+                        <button onClick={handleEditSave}>Guardar</button>
+                        <button onClick={() => setEditUser(null)}>Cancelar</button>
+                      </>
+                    ) : (
+                      <>
+                        <button onClick={() => setEditUser(user)}>Editar</button>
+                        <button onClick={() => handleDelete(user.username)}>Borrar</button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
   );
-};
+}
 
 export default UserManagement;
