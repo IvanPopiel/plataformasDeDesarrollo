@@ -44,6 +44,7 @@ const Products = () => {
                 <img src={product.img} alt="img-product-card" />
                 <h3>{product.name}</h3>
                 <h4>${product.price}</h4>
+                <h4>Stock: {product.quanty}</h4>
                 <button onClick={() => handleBuy(product)}>Anadir al carrito</button>
             </div>
         );
