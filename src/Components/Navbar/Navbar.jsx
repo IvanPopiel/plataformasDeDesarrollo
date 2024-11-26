@@ -32,12 +32,12 @@ const NavBar = () => {
         {isAuthenticated ? (
           <div className="user-info">
             <span className="navbar-username">Hola, {username}</span>
-            <button onClick={handleLogout} className="navbar-logout">Logout</button>
+            <button onClick={handleLogout} className="navbar-logout">Cerrar Sesión</button>
           </div>
         ) : (
           <>
-            <Link to="/login" className="navbar-login">Login</Link>
-            <Link to="/register" className="navbar-register">Register</Link>
+            <Link to="/login" className="navbar-login">Iniciar Sesión</Link>
+            <Link to="/register" className="navbar-register">Registro</Link>
           </>
         )}
       </div>

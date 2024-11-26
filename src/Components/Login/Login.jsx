@@ -45,7 +45,7 @@ const Login = () => {
       <h2>Inicio de Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Nombre Usuario:</label>
           <input
             type="text"
             id="username"
@@ -55,7 +55,7 @@ const Login = () => {
           />
         </div>
         <div className="input-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
             id="password"
@@ -65,7 +65,7 @@ const Login = () => {
           />
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Login</button>
+        <button type="submit">Iniciar Sesion</button>
       </form>
       <p className="register-link">
         ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
