@@ -9,9 +9,6 @@ const Admin = () => {
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem('loggedInUser');
     const userRole = localStorage.getItem('userRole');
-    console.log(isAuthenticated)
-    console.log(userRole)
-
     if (!isAuthenticated || userRole !== 'admin') {
       navigate('/'); 
     }
