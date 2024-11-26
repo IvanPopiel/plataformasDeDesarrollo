@@ -10,20 +10,19 @@ const Login = () => {
 
   // Función para cargar los datos de los usuarios desde localStorage
   const loadUserData = () => {
-    const loginData = localStorage.getItem('loginData');
+    const loginData = localStorage.getItem('userData');
     if (loginData) {
-      return JSON.parse(loginData); // Convertir el JSON almacenado en un objeto
+      return JSON.parse(loginData); 
     }
-    return []; // Retornar un arreglo vacío si no hay datos
+    return []; 
   };
 
-  // Manejar el envío del formulario
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
     const usersData = loadUserData();
 
-    // Buscar al usuario con las credenciales proporcionadas
     const user = usersData.find(
       (u) => u.username === username && u.password === password
     );
@@ -31,9 +30,7 @@ const Login = () => {
     if (user) {
       sessionStorage.setItem('loggedInUser', username);
       localStorage.setItem('userRole', user.role); 
-
-      // Redirigir al dashboard según el rol
-      if (user.role === 'Admin') {
+      if (user.role === 'admin') {
         navigate('/admin');
       } else {
         navigate('/');

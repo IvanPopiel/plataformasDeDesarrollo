@@ -12,41 +12,47 @@ import EditProduct from './Components/Admin/EditProduct.jsx';
 import UserManagement from './Components/Admin/UserManagement.jsx';
 import './index.css';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-  },
-  {
-    path: '/cart',
-    element: <CartContent />,
-  },
-  {
-    path: '/login', 
-    element: <Login />, 
-  },
-  {
-    path: '/register', 
-    element: <Register />, 
-  },
-  {
-    path: '/admin', 
-    element: <Admin />, 
-  },
-  {
-    path: '/admin/new', 
-    element: <NewProduct />, 
-  },
-  {
-    path: '/admin/edit/:productId', 
-    element: <EditProduct />, 
-  },
+const router = createBrowserRouter(
+  [
     {
-    path: '/admin/usermanagement',
-    element: <UserManagement currentUser={{ username: "admin", role: "admin" }} />,
-  },
-]);
-
+      path: '/',
+      element: <App />,
+    },
+    {
+      path: '/cart',
+      element: <CartContent />,
+    },
+    {
+      path: '/login',
+      element: <Login />,
+    },
+    {
+      path: '/register',
+      element: <Register />,
+    },
+    {
+      path: '/admin',
+      element: <Admin />,
+    },
+    {
+      path: '/admin/new',
+      element: <NewProduct />,
+    },
+    {
+      path: '/admin/edit/:productId',
+      element: <EditProduct />,
+    },
+    {
+      path: '/admin/usermanagement',
+      element: <UserManagement currentUser={{ username: "admin", role: "admin" }} />,
+    },
+  ],
+  {
+    future: {
+      v7_startTransition: true, 
+    },
+  }
+);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

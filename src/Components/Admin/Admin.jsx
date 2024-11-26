@@ -12,7 +12,7 @@ const Admin = () => {
     console.log(isAuthenticated)
     console.log(userRole)
 
-    if (!isAuthenticated || userRole !== 'Admin') {
+    if (!isAuthenticated || userRole !== 'admin') {
       navigate('/'); 
     }
   }, [navigate]);
