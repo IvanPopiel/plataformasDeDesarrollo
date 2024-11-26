@@ -12,7 +12,7 @@ const Register = () => {
   const navigate = useNavigate();
 
   const loadUserData = () => {
-    const storedData = localStorage.getItem('loginData');
+    const storedData = localStorage.getItem('usersData');
     if (storedData) {
       return JSON.parse(storedData); 
     }
@@ -20,7 +20,7 @@ const Register = () => {
   };
 
   const saveUserData = (usersData) => {
-    localStorage.setItem('loginData', JSON.stringify(usersData));
+    localStorage.setItem('usersData', JSON.stringify(usersData));
   };
 
   const handleSubmit = async (e) => {
@@ -42,7 +42,7 @@ const Register = () => {
     const newUser = {
       username,
       password,
-      role: isAdmin ? 'Admin' : 'User', 
+      role: isAdmin ? 'admin' : 'user', 
     };
 
     usersData.push(newUser); 
@@ -53,7 +53,11 @@ const Register = () => {
     setSuccessMessage('Te has registrado satisfactoriamente');
 
     setTimeout(() => {
-      navigate('/');
+      if (newUser.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }, 2000); 
   };
 
@@ -92,7 +96,6 @@ const Register = () => {
           />
         </div>
 
-        {/* Checkbox para seleccionar si es admin */}
         <div className="input-group">
           <label htmlFor="isAdmin">
             <input
