@@ -10,7 +10,7 @@ const Login = () => {
 
   // Función para cargar los datos de los usuarios desde localStorage
   const loadUserData = () => {
-    const loginData = localStorage.getItem('userData');
+    const loginData = localStorage.getItem('usersData');
     if (loginData) {
       return JSON.parse(loginData); 
     }
@@ -29,7 +29,7 @@ const Login = () => {
 
     if (user) {
       sessionStorage.setItem('loggedInUser', username);
-      localStorage.setItem('userRole', user.role); 
+      sessionStorage.setItem('userRole', user.role); 
       if (user.role === 'admin') {
         navigate('/admin');
       } else {

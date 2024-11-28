@@ -44,7 +44,7 @@ const router = createBrowserRouter(
     },
     {
       path: '/admin/usermanagement',
-      element: <UserManagement currentUser={{ username: "admin", role: "admin" }} />,
+      element: <UserManagement/>,
     },
   ],
   {

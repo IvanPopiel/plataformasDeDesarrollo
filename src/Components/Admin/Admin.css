@@ -1,34 +1,28 @@
 .admin-container {
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    display: flex;
-    
-  }
-  
+  display: flex; /* Cambiado a flex para habilitar centrado */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  flex-direction: column; /* Asegura que los elementos se apilen en columna */
+    background-color: #f5f5f5; /* Opcional, para diferenciar el fondo */
+}
 
-  .admin-button {
-    width: 80%;
-    max-width: 400px;
-    height: 100px;
-    margin: 10px 0;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 8px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  .admin-button:hover {
-    background-color: #6b0404e5;
-    transform: scale(1.02);
-  }
- 
+.admin-button {
+  width: 80%;
+  max-width: 4000px; /* Esto ajusta el tamaño máximo */
+  height: 150px;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  border-radius: 8px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s; /* Añadido para suavizar el efecto hover */
+}
 
-  /* mover
-
-  
-  */
+.admin-button:hover {
+  background-color: #6b0404e5;
+  transform: scale(1.02);
+}

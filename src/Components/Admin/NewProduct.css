@@ -1,7 +1,5 @@
-
+/* Ajustar el formulario */
 .new-product-container {
-  padding: 20px;
-  max-width: 600px;
   margin: 0 auto;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -9,12 +7,8 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-
-.new-product-container h2 {
-  text-align: center;
-  margin-bottom: 20px;
+  max-width: 600px; /* Limitar el ancho del formulario */
+  padding: 20px; /* Añadir un poco de espacio alrededor */
 }
 
 .new-product-container input {
@@ -26,64 +20,68 @@
 }
 
 .new-product-container button {
-  width: 100%;
-  padding: 12px;
+  width: auto; /* No ocupar todo el ancho */
+  padding: 12px 30px; /* Ajustar padding */
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  align-self: center; /* Centrar el botón */
 }
 
 .new-product-container button:hover {
   background-color: #45a049;
 }
 
-
+/* Ajuste de la lista de productos */
 .products-list {
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-top: 20px;
 }
 
-
 .products-list h3 {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   font-size: 1.5rem;
   text-align: center;
 }
 
-
+/* Contenedor de las tarjetas de productos */
 .product-cards-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; 
-  gap: 20px; 
+  justify-content: space-around; /* Acomodar productos en cuadrícula */
+  gap: 20px;
+  max-width: 100%; /* Para que ocupe todo el espacio posible */
 }
 
-
+/* Estilo de cada tarjeta de producto */
 .product-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
   padding: 15px;
-  width: 200px;
+  width: 200px; /* Ancho fijo para las tarjetas */
+  height: 280px; /* Altura fija */
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  justify-content: space-between; /* Distribuir contenido dentro de la tarjeta */
 }
 
 .product-card img {
   width: 100%;
-  height: auto;
+  height: 150px; /* Fijar la altura de la imagen */
+  object-fit: cover; /* Mantener la relación de aspecto */
   border-radius: 4px;
 }
 
 .product-card h4 {
   margin: 10px 0;
+  text-align: center;
 }
 
 .product-card button {
@@ -98,4 +96,26 @@
 
 .product-card button:hover {
   background-color: #e53935;
+}
+
+/* Estilo responsive para dispositivos móviles */
+@media (max-width: 768px) {
+  .new-product-container {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .product-cards-container {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .product-card {
+    width: 150px; /* Reducir el tamaño de las tarjetas en móviles */
+    height: auto;
+  }
+
+  .new-product-container button {
+    padding: 10px 20px; /* Reducir tamaño de botón */
+  }
 }

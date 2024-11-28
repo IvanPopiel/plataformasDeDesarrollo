@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./UserManagement.css";
+import Navbar from '../NavBar/NavBar';
 import { useNavigate } from "react-router-dom";
 
-
-
-const UserManagement = ({ currentUser }) => {
+const UserManagement = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const agregarId = (usersSinId)=> 
-  usersSinId ? usersSinId.map((user, index ) => ({ id: index+1, ...user })) : [];
+
+  const agregarId = (usersSinId) =>
+    usersSinId ? usersSinId.map((user, index) => ({ id: index + 1, ...user })) : [];
+
   useEffect(() => {
-    if (currentUser?.role === "admin") {
+    const userRole = sessionStorage.getItem("userRole");
+    if (userRole === "admin") {
       setIsAdmin(true);
-/*       setUsers(JSON.parse(localStorage.getItem("loginData")));
- */
-      const loginData = JSON.parse(localStorage.getItem("loginData")) || [];
-      console.log("mostrar los datos de local: ", loginData);
+      const loginData = JSON.parse(localStorage.getItem("usersData")) || [];
       setUsers(agregarId(loginData));
     }
-  }, [currentUser]);
-  
-  
+  }, []);
 
   const handleDelete = (username) => {
     const updatedUsers = users.filter((user) => user.username !== username);
     setUsers(updatedUsers);
-    localStorage.setItem("loginData", JSON.stringify(updatedUsers));
+    localStorage.setItem("usersData", JSON.stringify(updatedUsers));
   };
 
   const handleEditChange = (e) => {
@@ -40,7 +37,7 @@ const UserManagement = ({ currentUser }) => {
       user.id === editUser.id ? editUser : user
     );
     setUsers(updatedUsers);
-    localStorage.setItem("loginData", JSON.stringify(updatedUsers));
+    localStorage.setItem("usersData", JSON.stringify(updatedUsers));
     setEditUser(null);
   };
 
@@ -50,12 +47,11 @@ const UserManagement = ({ currentUser }) => {
 
   return (
     <div className="user-form-body">
+              <Navbar/> 
       <div className="user-form-div">
         <h2>Gestor de Usuarios</h2>
-        <button onClick={() => navigate('/admin')}>
-        Volver a Admin
-        </button>
-      
+        <button onClick={() => navigate("/admin")}>Volver a Admin</button>
+
         <table>
           <thead>
             <tr>
@@ -116,6 +112,6 @@ const UserManagement = ({ currentUser }) => {
       </div>
     </div>
   );
-}
+};
 
 export default UserManagement;

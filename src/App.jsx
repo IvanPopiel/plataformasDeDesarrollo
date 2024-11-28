@@ -32,8 +32,8 @@ function App() {
     }
 
     // Inicializar userData en localStorage si no existe
-    if (!localStorage.getItem('userData')) {
-      const userData = [
+    if (!localStorage.getItem('usersData')) {
+      const usersData = [
         {
           "username": "admin",
           "password": "admin123",
@@ -45,7 +45,7 @@ function App() {
           "role": "user"
         }
       ];
-      localStorage.setItem('userData', JSON.stringify(userData));
+      localStorage.setItem('usersData', JSON.stringify(usersData));
     }
   }, []); 
 

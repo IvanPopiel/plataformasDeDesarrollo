@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './EditProduct.css';
+import Navbar from '../NavBar/NavBar';
 
 const EditProduct = () => {
   const { productId } = useParams(); // Obtiene el ID del producto desde la URL
@@ -14,11 +15,16 @@ const EditProduct = () => {
   
 
   useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem('loggedInUser');
+    const userRole = sessionStorage.getItem('userRole');
+    if (!isAuthenticated || userRole !== 'admin') {
+      navigate('/'); 
+    }
+
     const foundProduct = loadProductData();
     if (foundProduct) {
       setProduct(foundProduct);
     } else {
-
       navigate('/admin');
     }
   }, [productId, navigate]);
@@ -44,6 +50,7 @@ const EditProduct = () => {
 
   return (
     <div className="edit-product-container">
+            <Navbar /> 
       <h2>Editar Producto</h2>
       
       <input
