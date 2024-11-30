@@ -36,10 +36,9 @@ const EditProduct = () => {
       p.id === product.id ? { ...p, ...product } : p
     );
     
-    // Guardamos el array de productos actualizado en localStorage
+    // Guarda el array de productos actualizado en localStorage
     localStorage.setItem('productsData', JSON.stringify(updatedProducts));
     
-    // Redirigimos al administrador a la página de administración
     navigate('/admin');
   };
 

@@ -26,6 +26,21 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!username.trim()) {
+      setErrorMessage('El nombre de usuario es obligatorio.');
+      return;
+    } 
+
+    if (username.length < 3) {
+      setErrorMessage('El nombre de usuario debe tener al menos 3 caracteres.');
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrorMessage('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setErrorMessage('Las contraseñas no coinciden.');
       return;

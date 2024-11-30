@@ -8,6 +8,7 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const agregarId = (usersSinId) =>
     usersSinId ? usersSinId.map((user, index) => ({ id: index + 1, ...user })) : [];
@@ -21,6 +22,23 @@ const UserManagement = () => {
     }
   }, []);
 
+  const validate = () => {
+    const newErrors = {};
+
+    if (!editUser.username.trim()) {
+      newErrors.username = 'El nombre de usuario es obligatorio.';
+    } else if (editUser.username.length < 3) {
+      newErrors.username = 'El nombre de usuario debe tener al menos 3 caracteres.';
+    }
+
+    if (!editUser.role) {
+      newErrors.role = 'El rol es obligatorio.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleDelete = (username) => {
     const updatedUsers = users.filter((user) => user.username !== username);
     setUsers(updatedUsers);
@@ -33,6 +51,9 @@ const UserManagement = () => {
   };
 
   const handleEditSave = () => {
+    if (!validate()) 
+      return;
+
     const updatedUsers = users.map((user) =>
       user.id === editUser.id ? editUser : user
     );
@@ -67,12 +88,15 @@ const UserManagement = () => {
                 <tr key={user.id}>
                   <td>
                     {isEditing ? (
+                      <>
                       <input
                         type="text"
                         name="username"
                         value={editUser.username}
                         onChange={handleEditChange}
                       />
+                      {errors.username && <div className="error">{errors.username}</div>}
+                      </>
                     ) : (
                       user.username
                     )}

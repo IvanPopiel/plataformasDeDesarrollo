@@ -20,7 +20,7 @@ const Products = () => {
 
         if (isAuthenticated && userRole == 'admin') {
             navigate('/admin'); 
-          }
+        }
     }, []);
 
     const handleBuy = (product) => {

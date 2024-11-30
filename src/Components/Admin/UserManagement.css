@@ -79,11 +79,6 @@ button:nth-child(2) {
   color: white;
 }
 
-button:nth-child(3) {
-  background-color: #ff9800; /* Cancelar */
-  color: white;
-}
-
 /* Inputs y selects */
 input,
 select {
@@ -98,4 +93,10 @@ input:focus,
 select:focus {
   outline: none;
   border-color: #4caf50;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 7px; /
 }
