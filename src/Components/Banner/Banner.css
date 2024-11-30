@@ -30,37 +30,37 @@
 /* Estilos para tablets */
 @media (max-width: 768px) {
   .banner {
-    height: 60vh; /* Reducimos un poco la altura para tablets */
+    height: 60vh; 
   }
 
   .banner h1 {
-    font-size: 48px; /* Tamaño reducido para caber mejor en pantallas medianas */
+    font-size: 48px; 
   }
 
   .banner p {
-    font-size: 22px; /* Ajustamos el tamaño del texto */
+    font-size: 22px; 
   }
 
   .banner-container {
-    padding: 10% 0; /* Reducimos el espacio superior e inferior */
+    padding: 10% 0; 
   }
 }
 
 /* Estilos para celulares */
 @media (max-width: 480px) {
   .banner {
-    height: 50vh; /* Altura menor para celulares */
+    height: 50vh;
   }
 
   .banner h1 {
-    font-size: 36px; /* Texto más pequeño para pantallas pequeñas */
+    font-size: 36px;
   }
 
   .banner p {
-    font-size: 18px; /* Texto más pequeño */
+    font-size: 18px;
   }
 
   .banner-container {
-    padding: 8% 0; /* Menos espacio para una mejor proporción */
+    padding: 8% 0; 
   }
 }

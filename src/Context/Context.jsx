@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 
-// Crear el contexto
 export const Context = createContext();
 
 const ContextProvider = ({ children }) => {
@@ -55,6 +54,20 @@ const ContextProvider = ({ children }) => {
         }
     };
 
+    const deleteProduct = (product) => {
+        const productRepeat = cart.find((item) => item.id === product.id); 
+        const updatedProducts = [...products];  
+        const productInStock = updatedProducts.find((item) => item.id === product.id);
+    
+        if (productRepeat) {
+        setCart(cart.filter((item) => item.id !== product.id));
+        if (productInStock) {
+            productInStock.quanty += productRepeat.quanty;
+        }
+        syncProducts(updatedProducts);
+        }
+    };
+
     // Función para disminuir la cantidad de un producto
     const decreaseProduct = (product) => {
         const productRepeat = cart.find((item) => item.id === product.id);
@@ -102,6 +115,7 @@ const ContextProvider = ({ children }) => {
                 setCart,
                 buyProducts,
                 decreaseProduct,
+                deleteProduct,
                 products,
             }}
         >
