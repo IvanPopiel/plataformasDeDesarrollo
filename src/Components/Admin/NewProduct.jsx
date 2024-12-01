@@ -14,15 +14,13 @@ const NewProduct = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem('loggedInUser');
     const userRole = sessionStorage.getItem('userRole');
     if (!isAuthenticated || userRole !== 'admin') {
       navigate('/'); 
     }
-    
+
     const storedProducts = JSON.parse(localStorage.getItem('productsData')) || [];
     setProducts(storedProducts);
   }, [navigate]);
@@ -83,7 +81,6 @@ const NewProduct = () => {
     validate();
   };
 
-  // borrar
   const handleDeleteProduct = (id) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     localStorage.setItem('productsData', JSON.stringify(updatedProducts));
@@ -92,62 +89,73 @@ const NewProduct = () => {
 
   return (
     <div className="new-product-container">
-  <Navbar/> 
-  <h2>Crear un nuevo producto</h2>
-  <button onClick={() => navigate('/admin')}>Volver a Admin</button>
-  <input
-    type="text"
-    placeholder="Nombre del Producto"
-    value={product.name}
-    onChange={(e) => setProduct({ ...product, name: e.target.value })}
-  />
-  {errors.name && <div className="error">{errors.name}</div>}
-  <input
-    type="text"
-    placeholder="Imagen URL"
-    value={product.img}
-    onChange={(e) => setProduct({ ...product, img: e.target.value })}
-  />
-  {errors.img && <div className="error">{errors.img}</div>}
-  <input
-    type="number"
-    placeholder="Precio del Producto"
-    value={product.price}
-    onChange={(e) => setProduct({ ...product, price: e.target.value })}
-  />
-  {errors.price && <div className="error">{errors.price}</div>}
-  <input
-    type="number"
-    placeholder="Stock del Producto"
-    value={product.quanty}
-    onChange={(e) => setProduct({ ...product, quanty: e.target.value })}
-  />
-  {errors.quanty && <div className="error">{errors.quanty}</div>}
-  <button onClick={handleAddProduct}>Agregar Producto</button>
-
-  <div className="products-list">
-    <h3>Lista de Productos</h3>
-    {products.length === 0 ? (
-      <p>No hay productos para mostrar</p>
-    ) : (
-      <div className="product-cards-container">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.img} alt={product.name} />
-            <h4>{product.name}</h4>
-            <p>Precio: ${product.price}</p>
-            <p>Cantidad: {product.quanty}</p>
-            <button onClick={() => navigate(`/admin/edit/${product.id}`)}>Editar</button>
-            <button onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
-          </div>
-        ))}
-      </div>
-    )}
-  </div>
-</div>
-
-  )
-
+      <Navbar /> 
+      <h2>Crear un nuevo producto</h2>
+      <button onClick={() => navigate('/admin')}>Volver a Admin</button>
+      <input
+        type="text"
+        placeholder="Nombre del Producto"
+        value={product.name}
+        onChange={(e) => setProduct({ ...product, name: e.target.value })}
+      />
+      {errors.name && <div className="error">{errors.name}</div>}
+      <input
+        type="text"
+        placeholder="Imagen URL"
+        value={product.img}
+        onChange={(e) => setProduct({ ...product, img: e.target.value })}
+      />
+      {errors.img && <div className="error">{errors.img}</div>}
+      <input
+        type="number"
+        placeholder="Precio del Producto"
+        value={product.price}
+        onChange={(e) => setProduct({ ...product, price: e.target.value })}
+      />
+      {errors.price && <div className="error">{errors.price}</div>}
+      <input
+        type="number"
+        placeholder="Stock del Producto"
+        value={product.quanty}
+        onChange={(e) => setProduct({ ...product, quanty: e.target.value })}
+      />
+      {errors.quanty && <div className="error">{errors.quanty}</div>}
+      <button onClick={handleAddProduct}>Agregar Producto</button>
+      
+      <section className="table-product-container">
+        <h3>Lista de Productos</h3>
+        {products.length === 0 ? (
+          <p>No hay productos para mostrar</p>
+        ) : (
+          <table className="product-table">
+            <thead>
+              <tr>
+                <th>Portada</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product.id}>
+                  <td><img src={product.img} alt={product.name} className="product-img" /></td>
+                  <td data-label ="Nombre">{product.name}</td>
+                  <td data-label ="Precio">${product.price}</td>
+                  <td data-label = "Cantidad">{product.quanty}</td>
+                  <td data-label="Acciones">
+                    <button onClick={() => navigate(`/admin/edit/${product.id}`)}>Editar</button>
+                    <button onClick={() => handleDeleteProduct(product.id)}>Eliminar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
+    </div>
+  );
 };
 
 export default NewProduct;
