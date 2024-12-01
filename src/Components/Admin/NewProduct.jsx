@@ -88,8 +88,9 @@ const NewProduct = () => {
   };
 
   return (
+    <>
+      <Navbar />
     <div className="new-product-container">
-      <Navbar /> 
       <h2>Crear un nuevo producto</h2>
       <button onClick={() => navigate('/admin')}>Volver a Admin</button>
       <input
@@ -155,6 +156,7 @@ const NewProduct = () => {
         )}
       </section>
     </div>
+    </>
   );
 };
 

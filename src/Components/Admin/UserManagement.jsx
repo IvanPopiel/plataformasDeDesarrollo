@@ -67,8 +67,9 @@ const UserManagement = () => {
   }
 
   return (
+    <>
+    <Navbar/> 
     <div className="user-form-body">
-              <Navbar/> 
       <div className="user-form-div">
         <h2>Gestor de Usuarios</h2>
         <button onClick={() => navigate("/admin")}>Volver a Admin</button>
@@ -135,6 +136,7 @@ const UserManagement = () => {
         </table>
       </div>
     </div>
+    </>
   );
 };
 

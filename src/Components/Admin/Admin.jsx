@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../NavBar/NavBar';
 import './Admin.css';
@@ -15,17 +15,24 @@ const Admin = () => {
   }, [navigate]);
 
   return (
-    <div className="admin-container">
-      <Navbar /> 
-      <h2>Panel de Administrador</h2>
-      
-      <button className="admin-button" onClick={() => navigate('/admin/new')}>
-        Crear Producto
-      </button>
-      <button className="admin-button" onClick={() => navigate('/admin/usermanagement')}>
-        Gestionar Usuarios
-      </button>
-    </div>
+    <>
+      <Navbar />
+      <div className="admin-container">
+        <h2>Panel de Administrador</h2>
+        <button
+          className="admin-button"
+          onClick={() => navigate('/admin/new')}
+        >
+          Crear Producto
+        </button>
+        <button
+          className="admin-button"
+          onClick={() => navigate('/admin/usermanagement')}
+        >
+          Gestionar Usuarios
+        </button>
+      </div>
+    </>
   );
 };
 

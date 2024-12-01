@@ -31,10 +31,6 @@
   align-self: center;
 }
 
-.new-product-container button:hover {
-  background-color: #45a049;
-}
-
 /* Ajuste de la lista de productos */
 .products-list {
   display: flex;
@@ -95,10 +91,6 @@
   cursor: pointer;
 }
 
-.product-card button:hover {
-  background-color: #e53935;
-}
-
 .table-product-container {
   display: flex;
   flex-direction: column;
@@ -149,9 +141,6 @@
   cursor: pointer;
 }
 
-.product-table button:hover {
-  background-color: #e53935;
-}
 
 /* Responsividad para pantallas medianas (tablets) */
 @media (max-width: 768px) {
