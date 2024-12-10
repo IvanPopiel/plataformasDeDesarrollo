@@ -34,21 +34,21 @@
 /* Estilos para tablets */
 @media (max-width: 768px) {
   .product-card-container {
-    margin: 30px; /* Reducimos el margen general */
-    justify-content: center; /* Centra las tarjetas si hay pocas en la fila */
+    margin: 30px; 
+    justify-content: center; 
   }
 
   .card {
-    margin: 30px; /* Menor margen entre tarjetas */
+    margin: 30px; 
   }
 
   .card img {
-    width: 250px; /* Imagen más pequeña */
+    width: 250px; 
     height: 300px;
   }
 
   .card button {
-    font-size: 14px; /* Botón ligeramente más pequeño */
+    font-size: 14px; 
     padding: 8px;
   }
 }
@@ -56,21 +56,21 @@
 /* Estilos para celulares */
 @media (max-width: 480px) {
   .product-card-container {
-    flex-direction: column; /* Apila las tarjetas verticalmente */
+    flex-direction: column; 
     margin: 20px;
   }
 
   .card {
-    margin: 20px auto; /* Centra cada tarjeta en la pantalla */
+    margin: 20px auto; 
   }
 
   .card img {
-    width: 200px; /* Imagen más compacta */
+    width: 200px; 
     height: 250px;
   }
 
   .card button {
-    font-size: 13px; /* Botón más pequeño */
+    font-size: 13px; 
     padding: 6px;
   }
 }

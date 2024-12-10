@@ -11,11 +11,15 @@ const CartContent = () => {
   const { cart } = useContext(Context);
   const navigate = useNavigate(); 
   const isAuthenticated = sessionStorage.getItem('loggedInUser');
-
+  const role = sessionStorage.getItem('userRole');
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/login');
     }
+  if (role == 'admin') {
+    navigate('/admin');
+}
+
   }, [isAuthenticated, navigate]);
 
   return (

@@ -11,7 +11,7 @@ const Products = () => {
     useEffect(() => {
         const productsData = localStorage.getItem('productsData');
         const isAuthenticated = sessionStorage.getItem('loggedInUser');
-        const userRole = localStorage.getItem('userRole');
+        const userRole = sessionStorage.getItem('userRole');
         if (productsData) {
             setProducts(JSON.parse(productsData)); 
         } else {
@@ -20,7 +20,7 @@ const Products = () => {
 
         if (isAuthenticated && userRole == 'admin') {
             navigate('/admin'); 
-          }
+        }
     }, []);
 
     const handleBuy = (product) => {
@@ -40,7 +40,7 @@ const Products = () => {
                 localStorage.setItem('productsData', JSON.stringify(updatedProducts));
                 return updatedProducts;
             });
-            buyProducts(product); // Llamar a buyProducts para agregarlo al carrito
+            buyProducts(product); 
         }
     };
 

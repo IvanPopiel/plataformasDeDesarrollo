@@ -3,9 +3,11 @@
   position: sticky;
   z-index: 3;
   top: 0;
+  width: 100%;
 }
 
 .navbar {
+  all: unset;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -101,7 +103,7 @@
 .navbar a,
 .navbar-login,
 .navbar-register {
-  text-decoration: none; /* Elimina el subrayado */
+  text-decoration: none; 
 }
 
 /* Estilos para pantallas entre 1090px y 768px */
@@ -137,9 +139,9 @@
 
   .navbar-actions {
     display: flex;
-    justify-content: space-between; /* Asegura que los elementos estén en los extremos */
-    align-items: center; /* Alinea verticalmente los elementos */
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
   }
 
   .navbar-cart {
@@ -147,13 +149,13 @@
   }
 
   .navbar-username {
-    font-size: 1.1rem; /* Más pequeño para tablets */
-    margin-left: 20px; /* Espacio reducido */
+    font-size: 1.1rem; 
+    margin-left: 20px; 
   }
 
   .navbar-logout {
-    font-size: 0.9rem; /* Reducido aún más */
-    padding: 6px 15px; /* Ajuste en el padding */
+    font-size: 0.9rem; 
+    padding: 6px 15px; 
   }
 
   .login-buttons {
@@ -181,13 +183,13 @@
   }
 
   .navbar-username {
-    font-size: 1.0rem; /* Aún más pequeño en móviles */
-    margin-left: 10px; /* Menos espacio */
+    font-size: 1.0rem; 
+    margin-left: 10px; 
   }
 
   .navbar-logout {
-    font-size: 0.8rem; /* Más pequeño para móviles */
-    padding: 5px 10px; /* Ajuste en el padding */
+    font-size: 0.8rem; 
+    padding: 5px 10px; 
   }
 
   .login-buttons {
