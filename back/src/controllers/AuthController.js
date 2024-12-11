@@ -23,7 +23,14 @@ exports.login = async (req, res) => {
       maxAge: 3600000, // 1 hora
     });
 
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
+   const redirectUrl = user.is_admin ? '/admin' : '/';
+
+   res.status(200).json({
+     message: 'Inicio de sesión exitoso',
+     redirect_url: redirectUrl,
+     user_id: user.id,
+     username: user.username,
+   });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

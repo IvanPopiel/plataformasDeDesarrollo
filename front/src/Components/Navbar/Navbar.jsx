@@ -2,13 +2,11 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const NavBar = () => {
-  const isAuthenticated = sessionStorage.getItem('loggedInUser');
-  const userRole = isAuthenticated ? sessionStorage.getItem('userRole') : null;
-  const username = isAuthenticated ? sessionStorage.getItem('loggedInUser') : null;
+  const username = sessionStorage.getItem('username');
 
   const handleLogout = () => {
-    sessionStorage.removeItem('loggedInUser');
-    sessionStorage.removeItem('userRole');
+    sessionStorage.removeItem('user_id');
+    sessionStorage.removeItem('username');
     window.location.reload();
   };
 
@@ -20,14 +18,11 @@ const NavBar = () => {
         </Link>
 
         <div className="navbar-actions">
-          {userRole !== 'admin' && (
             <Link to="/cart" className="navbar-cart">
               🛒
             </Link>
-          )}
-
           <div className="login-buttons">
-            {isAuthenticated ? (
+            {username ? (
               <div className="user-info">
                 <span className="navbar-username">Hola, {username}</span>
                 <button onClick={handleLogout} className="navbar-logout">

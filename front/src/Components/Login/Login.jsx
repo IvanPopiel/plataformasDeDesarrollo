@@ -6,37 +6,39 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Función para cargar los datos de los usuarios desde localStorage
-  const loadUserData = () => {
-    const loginData = localStorage.getItem('usersData');
-    if (loginData) {
-      return JSON.parse(loginData); 
-    }
-    return []; 
-  };
+  const API_URL = import.meta.env.VITE_API_URL;
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const usersData = loadUserData();
+    setErrorMessage('');
+    setIsLoading(true);
 
-    const user = usersData.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (user) {
-      sessionStorage.setItem('loggedInUser', username);
-      sessionStorage.setItem('userRole', user.role); 
-      if (user.role === 'admin') {
-        navigate('/admin');
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      
+      const data = await response.json();
+      sessionStorage.setItem('user_id', data.user_id);
+      sessionStorage.setItem('username', data.username);
+      if (response.ok) {
+        navigate(data.redirect_url || '/');
       } else {
-        navigate('/');
+        setErrorMessage(data.message || 'Credenciales incorrectas. Intenta nuevamente.');
       }
-    } else {
-      setErrorMessage('Credenciales incorrectas. Intenta nuevamente.');
+      
+    } catch (error) {
+      console.error('Error durante el login:', error);
+      setErrorMessage('Ocurrió un error. Por favor, intenta nuevamente más tarde.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -45,7 +47,7 @@ const Login = () => {
       <h2>Inicio de Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-group">
-          <label htmlFor="username">Nombre Usuario:</label>
+          <label htmlFor="username">Nombre de Usuario:</label>
           <input
             type="text"
             id="username"
@@ -65,7 +67,9 @@ const Login = () => {
           />
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Iniciar Sesion</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Iniciando Sesión...' : 'Iniciar Sesión'}
+        </button>
       </form>
       <p className="register-link">
         ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
