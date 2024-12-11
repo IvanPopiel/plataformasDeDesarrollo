@@ -1,7 +1,7 @@
 const Product = require('../models/Product');
 
 const getProducts = async (req, res) => {
-  const { product_id } = req.query;
+  const { product_id } = req.params;
   try {
     if (product_id) {
       const product = await Product.findByPk(product_id);

@@ -1,18 +1,37 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../NavBar/NavBar';
+import Navbar from '../Navbar/Navbar';
 import './Admin.css';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Admin = () => {
   const navigate = useNavigate();
-
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem('loggedInUser');
-    const userRole = sessionStorage.getItem('userRole');
-    if (!isAuthenticated || userRole !== 'admin') {
-      navigate('/'); 
-    }
-  }, [navigate]);
+    const fetchUserData = async () => {
+      try {
+        const userId = sessionStorage.getItem("user_id");
+          const response = await fetch(`${API_URL}/api/users/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+  
+          const data = await response.json();
+        
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
 
   return (
     <>

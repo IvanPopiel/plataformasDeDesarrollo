@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 const getUsers = async (req, res) => {
-  const { user_id } = req.query; // `user_id` es opcional
+  const { user_id } = req.params; // `user_id` es opcional
   try {
     if (user_id) {
       const user = await User.findByPk(user_id, {

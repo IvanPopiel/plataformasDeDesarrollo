@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './NewProduct.css';
-import Navbar from '../NavBar/NavBar';
+import Navbar from '../Navbar/Navbar';
 
 const NewProduct = () => {
   const [product, setProduct] = useState({

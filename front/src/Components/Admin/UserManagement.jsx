@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./UserManagement.css";
-import Navbar from '../NavBar/NavBar';
+import Navbar from '../Navbar/Navbar';
 import { useNavigate } from "react-router-dom";
 
 const UserManagement = () => {
@@ -14,12 +14,31 @@ const UserManagement = () => {
     usersSinId ? usersSinId.map((user, index) => ({ id: index + 1, ...user })) : [];
 
   useEffect(() => {
-    const userRole = sessionStorage.getItem("userRole");
-    if (userRole === "admin") {
-      setIsAdmin(true);
-      const loginData = JSON.parse(localStorage.getItem("usersData")) || [];
-      setUsers(agregarId(loginData));
-    }
+    const fetchUserData = async () => {
+      try {
+        const userId = sessionStorage.getItem("user_id");
+          const response = await fetch(`${API_URL}/api/users/${userId}`, {
+            method: "GET",
+            credentials: 'include',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+  
+          if (!response.ok) {
+            throw new Error(`Error: ${response.statusText}`);
+          }
+  
+          const data = await response.json();
+         console.log(data);
+        
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+    console.log('dsadsadsa');
+    fetchUserData();
   }, []);
 
   const validate = () => {
