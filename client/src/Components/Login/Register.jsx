@@ -8,20 +8,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false); 
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
-
-  const loadUserData = () => {
-    const storedData = localStorage.getItem('usersData');
-    if (storedData) {
-      return JSON.parse(storedData); 
-    }
-    return [];
-  };
-
-  const saveUserData = (usersData) => {
-    localStorage.setItem('usersData', JSON.stringify(usersData));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +17,7 @@ const Register = () => {
     if (!username.trim()) {
       setErrorMessage('El nombre de usuario es obligatorio.');
       return;
-    } 
+    }
 
     if (username.length < 3) {
       setErrorMessage('El nombre de usuario debe tener al menos 3 caracteres.');
@@ -45,35 +33,37 @@ const Register = () => {
       setErrorMessage('Las contraseñas no coinciden.');
       return;
     }
+    const API_URL = import.meta.env.VITE_API_URL;
+   // try {
+      const response = await fetch(`${API_URL}/register`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          is_admin: isAdmin,
+        }),
+      });
 
-    const usersData = loadUserData(); 
-    const existingUser = usersData.find((u) => u.username === username);
-
-    if (existingUser) {
-      setErrorMessage('El nombre de usuario ya está registrado.');
-      return;
-    }
-
-    const newUser = {
-      username,
-      password,
-      role: isAdmin ? 'admin' : 'user', 
-    };
-
-    usersData.push(newUser); 
-    saveUserData(usersData); 
-
-    sessionStorage.setItem('loggedInUser', username);
-    sessionStorage.setItem('userRole', newUser.role);
-    setSuccessMessage('Te has registrado satisfactoriamente');
-
-    setTimeout(() => {
-      if (newUser.role === 'admin') {
-        navigate('/admin');
-      } else {
-        navigate('/');
+      if (!response.ok) {
+        const data = await response.json();
+        setErrorMessage(data.message || 'Error al registrarse.');
+        return;
       }
-    }, 2000); 
+
+      const data = await response.json();
+      setSuccessMessage('Te has registrado satisfactoriamente');
+      
+      setTimeout(() => {
+        const redirectUrl = data.is_admin ? '/admin' : '/';
+        navigate(redirectUrl);
+      }, 2000);
+   // } catch (error) {
+   //   setErrorMessage('Ocurrió un error inesperado. Intenta de nuevo más tarde.');
+    //}
   };
 
   return (
