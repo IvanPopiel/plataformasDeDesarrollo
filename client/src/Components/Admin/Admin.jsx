@@ -42,7 +42,7 @@ const Admin = () => {
           className="admin-button"
           onClick={() => navigate('/admin/new')}
         >
-          Crear Producto
+          Gestionar Productos
         </button>
         <button
           className="admin-button"

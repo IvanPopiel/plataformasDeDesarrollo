@@ -1,60 +1,68 @@
-import { useContext, useState, useEffect } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Context } from "../../Context/Context"; 
 import { useNavigate } from "react-router-dom";
-import { Context } from "../../Context/Context";
-import "./products.css";
+import "./Products.css";
 
 const Products = () => {
-    const [products, setProducts] = useState([]);
     const { buyProducts } = useContext(Context);
     const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL;
 
+    // Obtener productos de la API
     useEffect(() => {
-        const productsData = localStorage.getItem('productsData');
-        const isAuthenticated = sessionStorage.getItem('loggedInUser');
-        const userRole = sessionStorage.getItem('userRole');
-        if (productsData) {
-            setProducts(JSON.parse(productsData)); 
-        } else {
-            console.log("No hay productos en la base de datos");
-        }
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/products`);
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+        fetchProducts();
+    }, [API_URL]);
 
-        if (isAuthenticated && userRole == 'admin') {
-            navigate('/admin'); 
-        }
-    }, []);
 
     const handleBuy = (product) => {
-        const isAuthenticated = sessionStorage.getItem('loggedInUser'); 
+        const isAuthenticated = sessionStorage.getItem('user_id');
         if (!isAuthenticated) {
             navigate('/login'); 
         } else {
-            
-            setProducts(prevProducts => {
-                const updatedProducts = prevProducts.map(p => 
-                    p.id === product.id 
-                    ? { ...p, quanty: p.quanty - 1 } 
-                    : p
+           
+            if (product.quantity > 0) {
+                buyProducts(product); // Llamar a la función de comprar productos
+    
+                // Actualizar el stock en el frontend solo si el producto tiene stock
+                setProducts(prevProducts =>
+                    prevProducts.map(p =>
+                        p.id === product.id ? { ...p, quantity: p.quantity - 1 } : p
+                    )
                 );
-                
-                // Guardar los productos actualizados en localStorage
-                localStorage.setItem('productsData', JSON.stringify(updatedProducts));
-                return updatedProducts;
-            });
-            buyProducts(product); 
+            } else {
+                alert("Este producto está agotado.");
+            }
         }
     };
-
-    return products.map((product) => {
-        return (
-            <div className="card" key={product.id}>
-                <img src={product.img} alt="img-product-card" />
+    
+    return (
+        <div className="product-card-container">
+          {Array.isArray(products) && products.length > 0 ? (
+            products.map((product) => (
+              <div className="card" key={product.id}>
+                <img src={product.image_url} alt="img-product-card" />
                 <h3>{product.name}</h3>
                 <h4>${product.price}</h4>
-                <h4>Stock: {product.quanty}</h4>
-                <button onClick={() => handleBuy(product)}>Anadir al carrito</button>
-            </div>
-        );
-    });
+                <h4>Stock: {product.quantity}</h4>
+                <button onClick={() => handleBuy(product)}>Añadir al carrito</button>
+              </div>
+            ))
+          ) : (
+            <p>No se encontraron productos.</p>
+          )}
+        </div>
+      );
+      
 };
 
 export default Products;

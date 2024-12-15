@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CartContent from './Components/CartContent/CartContent.jsx';
 import App from './App.jsx';
-import ContextProvider from './Context/Context.jsx';
+import CartProvider from './Context/Context.jsx';
 import Login from './Components/Login/Login.jsx'; 
 import Register from './Components/Login/Register.jsx'; 
 import Admin from './Components/Admin/Admin.jsx'; 
@@ -56,8 +56,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ContextProvider>
+    <CartProvider>
       <RouterProvider router={router} />
-    </ContextProvider>
+    </CartProvider>
   </StrictMode>,
 );

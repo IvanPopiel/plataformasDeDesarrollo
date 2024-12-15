@@ -1,14 +1,33 @@
 import { Link } from 'react-router-dom';
 import './Navbar.css';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const username = sessionStorage.getItem('username');
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('user_id');
-    sessionStorage.removeItem('username');
-    window.location.reload();
+      sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('username');
+      const API_URL = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${API_URL}/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', 
+      });
+  
+      navigate('/');
+      if (!response.ok) {
+        console.error('Error en el logout:', response.statusText);
+      } 
+    } catch (error) {
+      console.error('Error al realizar la solicitud de logout:', error);
+    }
   };
+  
 
   return (
     <div className="nav-container">

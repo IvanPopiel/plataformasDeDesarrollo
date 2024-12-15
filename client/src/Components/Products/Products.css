@@ -1,18 +1,25 @@
 .product-card-container {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Esto permite que los productos se distribuyan en varias filas */
+  justify-content: space-between; /* Distribuye los productos de manera equitativa */
   margin: 50px;
   text-align: center;
 }
 
 .card {
-  margin: 50px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  width: calc(33.333% - 20px); /* Cada card ocupa un tercio del contenedor, con un espacio entre ellos */
+  margin-bottom: 20px; /* Espacio entre las filas */
 }
 
 .card img {
-  width: 300px;
-  height: 350px;
+  width: 100%;
+  height: auto;
 }
 
 .card button {
@@ -25,6 +32,7 @@
   cursor: pointer;
   width: 100%;
   font-size: 15px;
+  border-radius: 0 0 8px 8px;
 }
 
 .card button:hover {
@@ -34,17 +42,17 @@
 /* Estilos para tablets */
 @media (max-width: 768px) {
   .product-card-container {
-    margin: 30px; 
-    justify-content: center; 
+    justify-content: center; /* Centra los cards en pantallas medianas */
   }
 
   .card {
-    margin: 30px; 
+    width: calc(50% - 20px); /* En pantallas más pequeñas, cada card ocupa la mitad del ancho */
+    margin-bottom: 20px;
   }
 
   .card img {
-    width: 250px; 
-    height: 300px;
+    width: 100%; 
+    height: auto; 
   }
 
   .card button {
@@ -56,17 +64,17 @@
 /* Estilos para celulares */
 @media (max-width: 480px) {
   .product-card-container {
-    flex-direction: column; 
-    margin: 20px;
+    justify-content: center; /* Centra los cards en pantallas pequeñas */
   }
 
   .card {
-    margin: 20px auto; 
+    width: calc(100% - 20px); /* En pantallas muy pequeñas, los cards ocupan el 100% del ancho */
+    margin-bottom: 20px;
   }
 
   .card img {
-    width: 200px; 
-    height: 250px;
+    width: 100%; 
+    height: auto;
   }
 
   .card button {

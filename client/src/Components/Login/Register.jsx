@@ -34,7 +34,7 @@ const Register = () => {
       return;
     }
     const API_URL = import.meta.env.VITE_API_URL;
-   // try {
+    try {
       const response = await fetch(`${API_URL}/register`, {
         method: 'POST',
         credentials: 'include',
@@ -54,16 +54,13 @@ const Register = () => {
         return;
       }
 
-      const data = await response.json();
       setSuccessMessage('Te has registrado satisfactoriamente');
-      
       setTimeout(() => {
-        const redirectUrl = data.is_admin ? '/admin' : '/';
-        navigate(redirectUrl);
-      }, 2000);
-   // } catch (error) {
-   //   setErrorMessage('Ocurrió un error inesperado. Intenta de nuevo más tarde.');
-    //}
+        navigate('/login');
+      }, 1500);
+    } catch (error) {
+      setErrorMessage('Ocurrió un error inesperado. Intenta de nuevo más tarde.');
+    }
   };
 
   return (

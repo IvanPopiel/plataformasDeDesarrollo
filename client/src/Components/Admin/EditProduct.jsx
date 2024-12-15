@@ -4,41 +4,74 @@ import './EditProduct.css';
 import Navbar from '../NavBar/NavBar';
 
 const EditProduct = () => {
-  const { productId } = useParams(); // Obtiene el ID del producto desde la URL
+  const { productId } = useParams(); 
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
 
-  const loadProductData = () => {
-    const storedProducts = JSON.parse(localStorage.getItem('productsData')) || [];
-    return storedProducts.find((p) => p.id === Number(productId)); 
+  const loadProductData = async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    try {
+      const response = await fetch(`${API_URL}/api/products/${productId}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching product: ${response.statusText}`);
+      }
+
+      const productData = await response.json();
+      setProduct(productData);
+    } catch (error) {
+      console.error('Error loading product:', error);
+      navigate('/admin'); 
+    }
   };
 
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem('loggedInUser');
-    const userRole = sessionStorage.getItem('userRole');
-    if (!isAuthenticated || userRole !== 'admin') {
-      navigate('/'); 
+    const userId = sessionStorage.getItem("user_id");
+    if (!userId) {
+      navigate("/"); 
+      return;
     }
 
-    const foundProduct = loadProductData();
-    if (foundProduct) {
-      setProduct(foundProduct);
-    } else {
-      navigate('/admin');
-    }
+    loadProductData();
   }, [productId, navigate]);
 
   // Función para guardar los cambios del producto
-  const handleSaveChanges = () => {
-    const storedProducts = JSON.parse(localStorage.getItem('productsData')) || [];
-    const updatedProducts = storedProducts.map((p) =>
-      p.id === product.id ? { ...p, ...product } : p
-    );
-    
-    // Guarda el array de productos actualizado en localStorage
-    localStorage.setItem('productsData', JSON.stringify(updatedProducts));
-    
-    navigate('/admin');
+  const handleSaveChanges = async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    try {
+      const response = await fetch(`${API_URL}/api/products/${product.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: product.name,
+          imgage_url: product.image_url,
+          price: product.price,
+          quantity: product.quantity,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error saving product: ${response.statusText}`);
+      }
+
+      const updatedProduct = await response.json();
+      setProduct(updatedProduct); 
+
+      navigate('/admin/new'); 
+    } catch (error) {
+      console.error('Error saving product:', error);
+    }
   };
 
   // Si el producto aún no está cargado, mostramos un cargando
@@ -51,7 +84,7 @@ const EditProduct = () => {
       <Navbar />
       <div className="edit-product-container">
         <h2>Editar Producto</h2>
-        
+
         <input
           type="text"
           value={product.name}
@@ -59,15 +92,15 @@ const EditProduct = () => {
           placeholder="Nombre del Producto"
           required
         />
-        
+
         <input
           type="text"
-          value={product.img}
-          onChange={(e) => setProduct({ ...product, img: e.target.value })}
+          value={product.image_url}
+          onChange={(e) => setProduct({ ...product, image_url: e.target.value })}
           placeholder="URL de la Imagen"
           required
         />
-        
+
         <input
           type="number"
           value={product.price}
@@ -75,15 +108,15 @@ const EditProduct = () => {
           placeholder="Precio del Producto"
           required
         />
-        
+
         <input
           type="number"
-          value={product.quanty}
-          onChange={(e) => setProduct({ ...product, quanty: e.target.value })}
+          value={product.quantity}
+          onChange={(e) => setProduct({ ...product, quantity: e.target.value })}
           placeholder="Cantidad en Stock"
           required
         />
-        
+
         <div className="button-group">
           <button onClick={handleSaveChanges}>Guardar Cambios</button>
           <button className="back-button" onClick={() => navigate(-1)}>Volver Atrás</button>

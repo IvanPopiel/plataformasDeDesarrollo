@@ -27,7 +27,6 @@ const Login = () => {
       });
       
       const data = await response.json();
-      console.log(response);
       sessionStorage.setItem('user_id', data.user_id);
       sessionStorage.setItem('username', data.username);
       if (response.ok) {

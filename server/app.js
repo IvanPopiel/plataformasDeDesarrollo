@@ -3,14 +3,20 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/AuthRoutes');
 const productRoutes = require('./routes/ProductRoutes');
 const userRoutes = require('./routes/UserRoutes');
+const cartRoutes = require('./routes/CartRoutes');
+const sequelize = require('./config/db');  
 require('dotenv').config();
 
 
 const cors = require('cors');
 const app = express();
 
+sequelize.sync({ force: false }).then(() => {
+  console.log('Sincronización de la base de datos completada');
+}).catch((error) => {
+  console.error('Error de sincronización: ', error);
+});
 
-console.log('frontend url: ' + process.env.FRONTEND_URL);
 
 app.use(cors({
   origin: process.env.FRONTEND_URL,
@@ -26,7 +32,7 @@ app.use(cookieParser());
 app.use('/', authRoutes);
 app.use('/api/', userRoutes);
 app.use('/api/', productRoutes);
-
+app.use('/api/', cartRoutes);
 
 
 

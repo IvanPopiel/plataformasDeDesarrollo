@@ -1,9 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Cart = require('../models/Cart');
 
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password,is_admin } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -12,7 +13,15 @@ exports.register = async (req, res) => {
     const newUser = await User.create({
       username,
       password: hashedPassword, 
+      is_admin: is_admin,
     });
+
+    // Verificar si el usuario ya tiene un carrito
+    const existingCart = await Cart.findOne({ where: { user_id: newUser.id } });
+    if (!existingCart) {
+      await Cart.create({ user_id: newUser.id });
+    }
+
 
     res.status(201).json({
       message: 'Usuario registrado con éxito',
@@ -39,6 +48,12 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Credenciales inválidas' });
     }
 
+    const existingCart = await Cart.findOne({ where: { user_id: user.id } });
+    if (!existingCart) {
+    await Cart.create({ user_id: user.id });
+    }
+
+    
     const token = jwt.sign(
       { id: user.id, is_admin: user.is_admin },
       process.env.JWT_SECRET,

@@ -5,108 +5,178 @@ export const Context = createContext();
 const ContextProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [products, setProducts] = useState([]);
+    const API_URL = import.meta.env.VITE_API_URL;
 
-    // Cargar el carrito y los productos desde localStorage al inicializar
+    // Obtener el user_id desde la sesión
+    const user_id = sessionStorage.getItem('user_id');
+
+    // Cargar productos desde la API
     useEffect(() => {
-        const storedCart = localStorage.getItem("cart");
-        const storedProducts = localStorage.getItem("productsData");
-        if (storedCart) {
-            setCart(JSON.parse(storedCart)); // Cargar el carrito desde localStorage
-        }
-        if (storedProducts) {
-            setProducts(JSON.parse(storedProducts)); // Cargar productos desde localStorage
-        }
-    }, []);
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`${API_URL}/api/products`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
 
-    // Sincronizar productos con localStorage
-    const syncProducts = (updatedProducts) => {
-        localStorage.setItem("productsData", JSON.stringify(updatedProducts));
-        setProducts(updatedProducts);
-    };
-
-    // Función para agregar productos al carrito
-    const buyProducts = (product) => {
-        const productRepeat = cart.find((item) => item.id === product.id);
-        const updatedProducts = [...products];
-        const productInStock = updatedProducts.find((item) => item.id === product.id);
-
-        if (productInStock && productInStock.quanty > 0) {
-            // Si hay stock, reducirlo
-            productInStock.quanty -= 1;
-
-            if (productRepeat) {
-                // Si el producto ya está en el carrito, incrementar su cantidad
-                setCart(
-                    cart.map((item) =>
-                        item.id === product.id
-                            ? { ...item, quanty: productRepeat.quanty + 1 }
-                            : item
-                    )
-                );
-            } else {
-                // Si no está en el carrito, agregarlo con cantidad inicial de 1
-                setCart([...cart, { ...product, quanty: 1 }]);
+                if (response.ok) {
+                    const data = await response.json();
+                    setProducts(data);
+                } else {
+                    console.error("Error al obtener productos:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error al obtener productos:", error);
             }
+        };
 
-            syncProducts(updatedProducts); // Actualizar productos en localStorage
-        } else {
-            alert("No hay suficiente stock");
-        }
-    };
+        const fetchCart = async () => {
+            if (user_id) {
+                try {
+                    const response = await fetch(`${API_URL}/api/carts/`, {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+        
+                    if (response.ok) {
+                        const data = await response.json();
+                        setCart(data); 
+                    } else if (response.status === 404) {
+                        setCart(null);
+                    } else {
+                        console.error("Error al obtener el carrito:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error al obtener el carrito:", error);
+                }
+            }
+        };
+        
 
-    const deleteProduct = (product) => {
-        const productRepeat = cart.find((item) => item.id === product.id); 
-        const updatedProducts = [...products];  
-        const productInStock = updatedProducts.find((item) => item.id === product.id);
+        fetchProducts();
+        fetchCart();
+    }, [API_URL, user_id]);
+
+
+    // Función para actualizar el carrito después de la compra
+    const fetchCart = async () => {
+        if (user_id) {
+            try {
+                const response = await fetch(`${API_URL}/api/carts/`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
     
-        if (productRepeat) {
-        setCart(cart.filter((item) => item.id !== product.id));
-        if (productInStock) {
-            productInStock.quanty += productRepeat.quanty;
-        }
-        syncProducts(updatedProducts);
-        }
-    };
-
-    // Función para disminuir la cantidad de un producto
-    const decreaseProduct = (product) => {
-        const productRepeat = cart.find((item) => item.id === product.id);
-        const updatedProducts = [...products];
-        const productInStock = updatedProducts.find((item) => item.id === product.id);
-
-        if (productRepeat) {
-            if (productRepeat.quanty > 1) {
-                // Disminuir la cantidad en el carrito
-                setCart(
-                    cart.map((item) =>
-                        item.id === product.id
-                            ? { ...item, quanty: productRepeat.quanty - 1 }
-                            : item
-                    )
-                );
-
-                // Aumentar el stock en productos
-                if (productInStock) {
-                    productInStock.quanty += 1;
+                if (response.ok) {
+                    const data = await response.json();
+                    setCart(data); //
+                } else if (response.status === 404) {
+                    setCart(null); 
+                } else {
+                    console.error("Error al obtener el carrito:", response.statusText);
                 }
-            } else {
-                // Si la cantidad es 1, eliminar el producto del carrito
-                setCart(cart.filter((item) => item.id !== product.id));
-
-                // Aumentar el stock en productos
-                if (productInStock) {
-                    productInStock.quanty += 1;
-                }
+            } catch (error) {
+                console.error("Error al obtener el carrito:", error);
             }
+        }
+    };
+    
 
-            syncProducts(updatedProducts); // Actualizar productos en localStorage
+    // Comprar productos (añadir al carrito)
+    const buyProducts = async (product) => {
+        if (!user_id) {
+            console.error("Usuario no autenticado");
+            return;
+        }
+        
+        const productId = product.id || product.productId;
+        try {
+            const response = await fetch(`${API_URL}/api/carts/add`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id,
+                    product_id: productId,
+                }),
+            });
+
+            if (response.ok) {
+                await fetchCart(); 
+            } else {
+                console.error("Error al añadir producto al carrito:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error al añadir producto al carrito:", error);
         }
     };
 
-    // Guardar el carrito actualizado en localStorage cada vez que cambie
-    useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(cart)); // Guardar carrito en localStorage
-    }, [cart]);
+    // Eliminar un producto del carrito
+    const deleteProduct = async (product) => {
+        if (!user_id) {
+            console.error("Usuario no autenticado");
+            return;
+        }
+        try {
+            const response = await fetch(`${API_URL}/api/carts/${user_id}/${product.productId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                await fetchCart(); 
+            } else {
+                console.error("Error al eliminar producto del carrito:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error al eliminar producto del carrito:", error);
+        }
+    };
+
+    // Reducir la cantidad de un producto en el carrito
+    const decreaseProduct = async (product) => {
+        if (product.quantity > 1) {
+            const productId = product.id || product.productId;
+           try {
+                const response = await fetch(`${API_URL}/api/carts/remove`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_id,
+                        product_id: productId,
+                    }),
+                });
+
+                    console.log(response);
+                if (response.ok) {
+                    await fetchCart(); 
+                } else {
+                    console.error("Error al reducir cantidad del producto:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error al reducir cantidad del producto:", error);
+            }
+        } else {
+            await deleteProduct(product); // Eliminar el producto si su cantidad es 1
+        }
+    };
 
     return (
         <Context.Provider

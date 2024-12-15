@@ -42,6 +42,26 @@ INSERT INTO `products` VALUES (1,'Resident evil 400','https://image.api.playstat
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+CREATE TABLE `carts` (
+   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+   `user_id` int(11) NOT NULL,
+   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+   PRIMARY KEY (`id`)
+ ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+
+ CREATE TABLE `cart_products` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `cart_id` bigint(20) unsigned NOT NULL,
+   `product_id` int(11) NOT NULL,
+   `quantity` int(11) NOT NULL DEFAULT 1,
+   PRIMARY KEY (`id`),
+   KEY `cart_id` (`cart_id`),
+   KEY `product_id` (`product_id`),
+   CONSTRAINT `cart_products_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`) ON DELETE CASCADE,
+   CONSTRAINT `cart_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+ ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
+ 
 --
 -- Table structure for table `users`
 --

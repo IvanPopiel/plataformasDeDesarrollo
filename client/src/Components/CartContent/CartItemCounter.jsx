@@ -5,11 +5,11 @@ const CartItemCounter = ({ product }) => {
     const { cart, setCart, buyProducts, decreaseProduct } = useContext(Context);
 
     const increase = () => {
-        buyProducts(product); // Aumenta la cantidad del producto en el carrito
+        buyProducts(product); 
     };
 
     const decrease = () => {
-        decreaseProduct(product); // Disminuye la cantidad del producto en el carrito
+        decreaseProduct(product); 
     };
 
     return (
